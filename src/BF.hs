@@ -1,4 +1,4 @@
-module Main where
+module BF where
 
 import Data.Char
 import Data.Monoid
@@ -137,7 +137,3 @@ quine =
 quineTest :: Bool
 quineTest = out == quine
   where ((_, out), _, _) = run quine "" 
-
-main :: IO ()
-main = -- print (run hw [])
-  print quineTest
