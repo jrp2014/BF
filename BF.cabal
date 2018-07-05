@@ -18,6 +18,8 @@ description:         Experiments with implementing the BrainFuck language in Has
 -- URL for the project homepage or repository.
 homepage:            https://github.com/jrp2014/BF
 
+bug-reports:         https://github.com/jrp2014BF/issues
+
 -- The license under which the package is released.
 license:             BSD3
 
