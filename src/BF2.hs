@@ -55,9 +55,7 @@ simpleInstruction =
   anInstruction "." Emit
 
 anInstruction :: String -> Instruction -> Parser Instruction
-anInstruction s i = do
-  _ <- reserved' s
-  return i
+anInstruction s i = reserved' s >> return i
 
 loopInstruction :: Parser Instruction
 loopInstruction = do
