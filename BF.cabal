@@ -73,7 +73,7 @@ library
   -- Base language which the package is written in.
   default-language:    Haskell2010
 
-  ghc-options:         -Wall -Wextra
+  ghc-options:         -Wall -Wextra -O2
 
 
 executable BF
@@ -97,5 +97,5 @@ executable BF
   -- Base language which the package is written in.
   default-language:    Haskell2010
 
-  ghc-options:         -Wall -Wextra
+  ghc-options:         -Wall -Wextra -O2
 
