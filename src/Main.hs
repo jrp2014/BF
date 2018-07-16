@@ -3,10 +3,10 @@ module Main where
 import System.Console.GetOpt
 import System.Environment
 import System.Exit
-import System.FilePath
 
-import Data.Maybe
+--import System.FilePath
 import Control.Monad
+import Data.Maybe
 
 import qualified BF
 import qualified PureBF
@@ -16,32 +16,45 @@ data Action
   = ParseBF
   | ParseBF2
   | RunBF
+  | RunPureBF
   | RunBF2
   deriving (Show)
 
 data Options = Options
   { optHelp :: Bool
+  , optDebug :: Bool
   , optAction :: Action
   } deriving (Show)
 
 defaultOptions :: Options
-defaultOptions = Options {optHelp = False, optAction = ParseBF}
+defaultOptions =
+  Options {optHelp = False, optDebug = False, optAction = ParseBF}
 
 options :: [OptDescr (Options -> Options)]
 options =
   [ Option
+      "d"
+      ["debug"]
+      (NoArg (\opts -> opts {optDebug = True}))
+      "Show extra debugging output"
+  , Option
       "h?"
       ["help"]
       (NoArg (\opts -> opts {optHelp = True}))
       "Show help for the BrainFuck interpreter"
   , Option
       ""
-      ["parseBF"]
+      ["ParseBF"]
       (NoArg (\opts -> opts {optAction = ParseBF}))
       "Parse using BF hand written parser"
   , Option
       ""
-      ["runBF"]
+      ["RunPureBF"]
+      (NoArg (\opts -> opts {optAction = RunPureBF}))
+      "Parse using PureBFBF"
+  , Option
+      ""
+      ["RunBF"]
       (NoArg (\opts -> opts {optAction = RunBF}))
       "Run (using BF hand written parser)"
   ]
@@ -73,4 +86,10 @@ main = do
   let fName' = fromJust fName
   source <- readFile fName'
   case optAction opts of
-    RunBF -> print $ BF.run source ""
+    RunPureBF -> PureBF.interpret $ PureBF.compile source
+    RunBF ->
+      if optDebug opts
+        then print $ BF.run source ""
+        else do
+          let ((_, o), _, _) = BF.run source ""
+          putStrLn o
