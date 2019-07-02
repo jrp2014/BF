@@ -4,7 +4,6 @@ module BFKS where
 -- From Daniel Silverstone
 -- https://www.youtube.com/watch?v=VvajXPyKuTo&t=119s
 
-import           Data.Monoid
 import qualified Text.Trifecta                 as P
 import           Control.Monad.State
 import qualified Data.IntMap                   as M
@@ -61,7 +60,9 @@ parseInstructions = do
 
 
 
-type Runner = StateT (Int, M.IntMap Word8) IO ()
+type Cells = M.IntMap Word8
+type DataPtr = Int
+type Runner = StateT (DataPtr, Cells) IO ()
 
 zeroise :: Maybe Word8 -> Word8
 zeroise = fromMaybe 0
@@ -69,30 +70,30 @@ zeroise = fromMaybe 0
 
 runInstruction :: Instruction -> Runner
 
-runInstruction Back      = modify (\(h, m) -> (h - 1, m))
-runInstruction Forward   = modify (\(h, m) -> (h + 1, m))
+runInstruction Back      = modify (\(dataPtr, cells) -> (dataPtr - 1, cells))
+runInstruction Forward   = modify (\(dataPtr, cells) -> (dataPtr + 1, cells))
 
 runInstruction Increment = do
-  (bfHead, bfMap) <- get
-  let val = zeroise (M.lookup bfHead bfMap)
-  put (bfHead, M.insert bfHead (val + 1) bfMap)
+  (dataPtr, cells) <- get
+  let val = zeroise (M.lookup dataPtr cells)
+  put (dataPtr, M.insert dataPtr (val + 1) cells)
 runInstruction Decrement = do
-  (bfHead, bfMap) <- get
-  let val = zeroise (M.lookup bfHead bfMap)
-  put (bfHead, M.insert bfHead (val - 1) bfMap)
+  (dataPtr, cells) <- get
+  let val = zeroise (M.lookup dataPtr cells)
+  put (dataPtr, M.insert dataPtr (val - 1) cells)
 
 runInstruction Accept = do
-  (bfHead, bfMap) <- get
+  (dataPtr, cells) <- get
   c               <- liftIO getChar
-  put (bfHead, M.insert bfHead (fromIntegral (fromEnum c)) bfMap)
+  put (dataPtr, M.insert dataPtr (fromIntegral (fromEnum c)) cells)
 runInstruction Emit = do
-  (bfHead, bfMap) <- get
-  let val = zeroise (M.lookup bfHead bfMap)
+  (dataPtr, cells) <- get
+  let val = zeroise (M.lookup dataPtr cells)
   liftIO . putChar . toEnum $ fromIntegral val
 
 runInstruction loop@(Loop instructions) = do
-  (bfHead, bfMap) <- get
-  let val = zeroise (M.lookup bfHead bfMap)
+  (dataPtr, cells) <- get
+  let val = zeroise (M.lookup dataPtr cells)
   case val of
     0 -> return ()
     _ -> runInstructions instructions >> runInstruction loop
