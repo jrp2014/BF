@@ -3,7 +3,6 @@ module BFKS where
 import           Data.Char
 import           Data.Monoid
 import qualified Text.Trifecta                 as P
-import           Control.Applicative
 
 type Source = String
 
@@ -54,7 +53,7 @@ parseLoop = Loop <$> P.brackets parseInstructions
 parseComment :: P.Parser ()
 parseComment =  --  P.skipOptional $ P.noneOf "<>+-,.[" -- \n terminates parse
   do
-    P.many $ P.noneOf "+-<>.+[]"
+    _ <- P.many $ P.noneOf "+-<>.+[]"
     return ()
 
 parseInstruction = P.choice
