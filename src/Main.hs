@@ -96,7 +96,5 @@ main = do
         let ((_, o), _, _) = BF.run source ""
         putStrLn o
     ParseBFKS -> print $ P.parseString BFKS.parseInstructions mempty source
-    RunBFKS   -> do
-      let ((_, o), _, _) = BFKS.run source ""
-      putStrLn o
+    RunBFKS   -> BFKS.run source
 
