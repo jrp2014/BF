@@ -55,7 +55,7 @@ source-repository     head
 
 library
   -- Modules exported by the library.
-  exposed-modules:    BF, PureBF
+  exposed-modules:    BF, PureBF, BFKS
 
   -- Modules included in this library but not exported.
   -- other-modules:
@@ -65,7 +65,8 @@ library
 
   -- Other library packages from which modules are imported.
   build-depends:       base >=4.11 && < 5,
-                       comonad
+                       comonad,
+                       trifecta
 
   -- Directories containing source files.
   hs-source-dirs:      src
@@ -81,7 +82,7 @@ executable BF
   main-is:             Main.hs
 
   -- Modules included in this executable, other than Main.
-  other-modules:       BF, PureBF, BF2, NanoParsec
+  other-modules:       BF, PureBF, BF2, NanoParsec, BFKS
 
   -- LANGUAGE extensions used by modules in this package.
   -- other-extensions:
@@ -89,7 +90,8 @@ executable BF
   -- Other library packages from which modules are imported.
   build-depends:       base >=4.11 && < 5,
                        comonad,
-                       filepath
+                       filepath,
+                       trifecta
 
   -- Directories containing source files.
   hs-source-dirs:      src
