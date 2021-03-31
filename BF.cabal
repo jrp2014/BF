@@ -1,108 +1,85 @@
--- The name of the package.
-name:                BF
+cabal-version:   2.4
+name:            BF
+version:         0.1.0.0
+synopsis:
+  Experiments with implementing the BrainFuck language in Haskell
 
--- The package version.  See the Haskell package versioning policy (PVP)
--- for standards guiding when and how versions should be incremented.
--- https://wiki.haskell.org/Package_versioning_policy
--- PVP summary:      +-+------- breaking API changes
---                   | | +----- non-breaking API additions
---                   | | | +--- code changes with no API change
-version:             0.1.0.0
+description:
+  Experiments with implementing the BrainFuck language in Haskell.  
 
--- A short (one-line) description of the package.
-synopsis:            Experiments with implementing the BrainFuck language in Haskell
+homepage:        https://github.com/jrp2014/BF
+bug-reports:     https://github.com/jrp2014BF/issues
+license:         (BSD-2-Clause OR Apache-2.0)
+license-file:    LICENSE
+author:          John Pavel
+maintainer:      jrp2014@dial.pipex.com
+category:        Language
+build-type:      Simple
+stability:       experimental
+extra-doc-files:
+  .gitignore
+  ChangeLog.md
+  README.md
 
--- A longer description of the package.
-description:         Experiments with implementing the BrainFuck language in Haskell.  
+tested-with:     GHC ==8.10.4
 
--- URL for the project homepage or repository.
-homepage:            https://github.com/jrp2014/BF
+source-repository head
+  type:     git
+  location: https://github.com/jrp2014/BF
 
-bug-reports:         https://github.com/jrp2014BF/issues
+common common-options
+  build-depends:    base ^>=4.14.1.0
+  ghc-options:
+    -Wall -Wcompat -Widentities -Wincomplete-uni-patterns
+    -Wincomplete-record-updates -Wredundant-constraints
+    -Wnoncanonical-monad-instances
 
--- The license under which the package is released.
-license:             BSD3
+  -- -O2
 
--- The file containing the license text.
-license-file:        LICENSE
+  if impl(ghc >=8.2)
+    ghc-options: -fhide-source-paths
 
--- The package author(s).
-author:              John Pavel
+  if impl(ghc >=8.4)
+    ghc-options: -Wmissing-export-lists -Wpartial-fields
 
--- An email address to which users can send suggestions, bug reports, and
--- patches.
-maintainer:          jrp@dial.pipex.com
+  if impl(ghc >=8.8)
+    ghc-options: -Wmissing-deriving-strategies -fwrite-ide-info -hiedir=.hie
 
--- A copyright notice.
--- copyright:
+  if impl(ghc >=8.10)
+    ghc-options: -Wunused-packages
 
-category:            Language
-
-build-type:          Simple
-
-stability:           experimental
-
--- extra files to be distributed with the package, such as examples or a
--- README.
-extra-source-files:  ChangeLog.md, README.md, .gitignore
-
--- Constraint on the version of Cabal needed to build this package.
-cabal-version:       >=1.10
-
-source-repository     head
-  type:               git
-  location:           https://github.com/jrp2014/BF
+  default-language: Haskell2010
 
 library
-  -- Modules exported by the library.
-  exposed-modules:    BF, PureBF, BFKS
+  import:          common-options
+  exposed-modules:
+    BF
+    BFKS
+    PureBF
 
-  -- Modules included in this library but not exported.
-  -- other-modules:
+  build-depends:
+    , base        >=4.11 && <5
+    , comonad
+    , containers
+    , mtl
+    , trifecta
 
-  -- LANGUAGE extensions used by modules in this package.
-  -- other-extensions:
-
-  -- Other library packages from which modules are imported.
-  build-depends:       base >=4.11 && < 5,
-                       comonad,
-                       trifecta,
-                       mtl,
-                       containers
-
-
-  -- Directories containing source files.
-  hs-source-dirs:      src
-
-  -- Base language which the package is written in.
-  default-language:    Haskell2010
-
-  ghc-options:         -Wall -Wextra -O2
-
+  hs-source-dirs:  src
 
 executable BF
-  -- .hs or .lhs file containing the Main module.
-  main-is:             Main.hs
+  import:         common-options
+  main-is:        Main.hs
+  other-modules:
+    BF
+    BFKS
+    PureBF
 
-  -- Modules included in this executable, other than Main.
-  other-modules:       BF, PureBF, BFKS
+  build-depends:
+    , base        >=4.11 && <5
+    , comonad
+    , containers
+    , filepath
+    , mtl
+    , trifecta
 
-  -- LANGUAGE extensions used by modules in this package.
-  -- other-extensions:
-
-  -- Other library packages from which modules are imported.
-  build-depends:       base >=4.11 && < 5,
-                       comonad,
-                       filepath,
-                       trifecta,
-                       mtl,
-                       containers
-
-  -- Directories containing source files.
-  hs-source-dirs:      src
-
-  -- Base language which the package is written in.
-  default-language:    Haskell2010
-
-  ghc-options:         -Wall -Wextra -O2
-
+  hs-source-dirs: src
