@@ -49,7 +49,7 @@ options =
   , Option ""
            ["RunBFKS"]
            (NoArg (\opts -> opts { optAction = RunBFKS }))
-           "Parse und run sing Trifecta BF parser"
+           "Parse and run using Trifecta BF parser"
   , Option ""
            ["ParseBFKS"]
            (NoArg (\opts -> opts { optAction = ParseBFKS }))

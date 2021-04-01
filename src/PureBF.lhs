@@ -1,4 +1,5 @@
-This is an implementation of [[Pure BF]] in Haskell. (This wiki article is a valid Haskell code. If you [http://esolangs.org/wiki/Pure_BF/Implementation?action=raw&ctype=text/css download the raw article code], and give the file a ".lhs" extension then you can load it in a Haskell compiler/interpreter.)
+:{{Back|Pure BF}}
+This is an implementation of Pure BF in Haskell. (This wiki article is a valid Haskell code. If you [http://esolangs.org/wiki/Pure_BF/Implementation?action=raw&ctype=text/css download the raw article code], and give the file a ".lhs" extension then you can load it in a Haskell compiler/interpreter.)
 
 <pre>
 
@@ -168,3 +169,5 @@ This program uses Lazy I/O to attempt to make a brainfuck program working.
 > }
 
 -->
+
+[[Category:Implementations]]
