@@ -29,6 +29,7 @@ source-repository head
 common common-options
   build-depends:    base ^>=4.14.1.0
   ghc-options:
+    -O2
     -Wall -Wcompat -Widentities -Wincomplete-uni-patterns
     -Wincomplete-record-updates -Wredundant-constraints
     -Wnoncanonical-monad-instances
@@ -76,3 +77,16 @@ executable runbf
     , trifecta
 
   hs-source-dirs: app
+
+executable comonad
+  import:         common-options
+  main-is:       Main.hs
+
+  build-depends:
+    , Stream
+    , comonad
+    , containers
+    , mtl
+    , trifecta
+
+  hs-source-dirs: comonad
