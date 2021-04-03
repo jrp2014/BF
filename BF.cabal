@@ -78,15 +78,15 @@ executable runbf
 
   hs-source-dirs: app
 
-executable comonad
+executable ekmett
   import:         common-options
   main-is:       Main.hs
+  other-modules: Tape
 
   build-depends:
     , Stream
     , comonad
-    , containers
     , mtl
-    , trifecta
+    , distributive
 
-  hs-source-dirs: comonad
+  hs-source-dirs: ekmett
