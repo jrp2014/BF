@@ -14,13 +14,14 @@ the list is infinite in both directions).
 
 {-# LANGUAGE DeriveFunctor     #-}
 {-# LANGUAGE FlexibleInstances #-}
-
+{-# LANGUAGE DerivingStrategies #-}
 module Tape where
 
 import Control.Comonad
-import Control.Arrow
-import Control.Applicative
-import Data.Distributive
+    ( Comonad(extract, duplicate),
+      ComonadApply((<@>)) )
+import Control.Arrow ( Arrow((&&&)) )
+import Data.Distributive ( Distributive(distribute) )
 
 import Data.Stream ( Stream(..) )
 import qualified Data.Stream as S
@@ -31,7 +32,7 @@ import Prelude hiding ( iterate , take )
 data Tape a = Tape { viewL :: Stream a -- ^ the side of the @Tape@ left of @focus@
                    , focus :: a        -- ^ the focused element
                    , viewR :: Stream a -- ^ the side of the @Tape@ right of @focus@
-                   } deriving ( Functor )
+                   } deriving stock ( Functor )
 
 -- | Produce a @Tape@ from a seed value, ala unfoldr for lists, or unfold for @Stream@s.
 unfold :: (c -> (a,c)) -- ^ leftwards unfolding function
